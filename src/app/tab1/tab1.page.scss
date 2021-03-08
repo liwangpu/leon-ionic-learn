@@ -1,0 +1,7 @@
+:host {
+    div.buttons {
+        &>* {
+            margin-right: 1em;
+        }
+    }
+}
