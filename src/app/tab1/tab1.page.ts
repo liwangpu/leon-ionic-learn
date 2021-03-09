@@ -1,30 +1,25 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
+import { MyDialogComponent } from './my-dialog/my-dialog.component';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+    selector: 'app-tab1',
+    templateUrl: 'tab1.page.html',
+    styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
 
     public constructor(
-        private navCtl: NavController,
-        private router: Router,
-        private acr: ActivatedRoute
+        public modalController: ModalController
     ) { }
 
-    public goto(name: string) {
-        if (name === 'student') {
-            // this.navCtl.navigateForward('');
-            this.router.navigate(['./student'], { relativeTo: this.acr });
-        } else {
-            this.router.navigate(['./teacher'], { relativeTo: this.acr });
-        }
-
-      
-        // this.router.navigateByUrl('/tabs/tab1/home/student');
+    public async open(): Promise<void> {
+        const modal = await this.modalController.create({
+            component: MyDialogComponent,
+            cssClass: 'my-custom-class'
+        });
+        return await modal.present();
     }
 
 }
