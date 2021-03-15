@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+// declare var cordova: any;
+
 @Component({
     selector: 'app-tab1',
     templateUrl: 'tab1.page.html',
@@ -7,5 +9,8 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
+    public startMessagingService(): void {
+        alert(JSON.stringify(typeof window['cordova']));
 
+    }
 }
