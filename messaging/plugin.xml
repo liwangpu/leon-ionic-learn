@@ -1,25 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="com.cxist.messaging" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>foregroundServie</name>
-    <js-module name="foregroundServie" src="www/foregroundServie.js">
-        <clobbers target="cordova.plugins.foregroundServie" />
+<plugin id="com.cxist.notification" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>messaging</name>
+    <js-module name="messaging" src="www/messaging.js">
+        <clobbers target="cordova.plugins.messaging" />
     </js-module>
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
-            <feature name="foregroundServie">
-                <param name="android-package" value="com.cxist.messaging.foregroundServie" />
-                <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+            <feature name="messaging">
+                <param name="android-package" value="com.cxist.notification.messaging" />
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
-        <source-file src="src/android/foregroundServie.kt" target-dir="src/com/cxist/messaging" />
-        <source-file src="src/android/messaging.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/Actions.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/MessageData.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/MirrorMESService.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/ServiceTracker.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/SignalR.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/StartReceiver.kt" target-dir="app/src/main/kotlin/messaging" />
-        <source-file src="src/android/message/Utils.kt" target-dir="app/src/main/kotlin/messaging" />
+
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+        </config-file>
+
+        <source-file src="src/android/messaging.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/Actions.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/MessageData.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/MirrorMESService.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/ServiceTracker.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/SignalR.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/StartReceiver.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/Utils.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
     </platform>
 </plugin>

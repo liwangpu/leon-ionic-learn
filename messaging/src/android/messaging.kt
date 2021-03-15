@@ -1,4 +1,4 @@
-package com.cxist.messaging
+package com.cxist.notification
 
 import android.content.Intent
 import android.os.Build
@@ -10,7 +10,7 @@ import com.cxist.mirror.message.*
 /**
  * This class echoes a string called from JavaScript.
  */
-class foregroundServie : CordovaPlugin() {
+class messaging : CordovaPlugin() {
 
     override fun execute(
         action: String,
@@ -44,3 +44,4 @@ class foregroundServie : CordovaPlugin() {
         }
     }
 }
+
