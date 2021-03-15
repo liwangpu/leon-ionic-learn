@@ -2,7 +2,6 @@ package com.cxist.notification
 
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import androidx.core.content.ContextCompat.startForegroundService
 import org.apache.cordova.*
 import com.cxist.mirror.message.*

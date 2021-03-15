@@ -8,8 +8,8 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.os.SystemClock
-import io.cordova.hellocordova.MainActivity
-import io.cordova.hellocordova.R
+import com.cxist.mirror.MainActivity
+import com.cxist.mirror.R
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
