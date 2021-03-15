@@ -10,7 +10,7 @@ import com.cxist.mirror.message.*
 /**
  * This class echoes a string called from JavaScript.
  */
-class messaging : CordovaPlugin() {
+class foregroundServie : CordovaPlugin() {
 
     override fun execute(
         action: String,
