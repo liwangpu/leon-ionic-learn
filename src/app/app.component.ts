@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
+
+declare let cordova: any;
 
 @Component({
     selector: 'app-root',
@@ -7,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-    public constructor() {
+    public constructor(private platform: Platform) {
     }
 
     public async ngOnInit(): Promise<void> {
