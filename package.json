@@ -10,7 +10,9 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "leon": "node hooks/androidAfterBuild"
+        "cls": "ionic cordova platform rm android && npm run update-plugin:messaing",
+        "android": "ionic cordova run android",
+        "update-plugin:messaing": "cordova plugins add ./messaging"
     },
     "private": true,
     "dependencies": {
@@ -24,7 +26,10 @@
         "@ionic-native/core": "^5.31.1",
         "@ionic/angular": "^5.5.2",
         "cordova-android": "9.0.0",
+        "lodash": "^4.17.20",
+        "query-string": "^6.12.1",
         "rxjs": "~6.6.0",
+        "subsink": "^1.0.2",
         "tslib": "^2.0.0",
         "zone.js": "~0.10.2"
     },

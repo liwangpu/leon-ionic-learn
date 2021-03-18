@@ -1,0 +1,41 @@
+:host {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    background-color: #F0F0F0;
+
+    div.header {
+        display: flex;
+        align-items: center;
+        height: 120px;
+        padding: 0 18px;
+        background-color: #fff;
+        box-shadow: 1px 1px 1px #E1E1E1;
+
+        p.profile {
+            display: flex;
+            flex-flow: column;
+            margin-left: 18px;
+
+            span {
+                &:nth-of-type(1) {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: var(--byz-text-color);
+                }
+
+                &:nth-of-type(2) {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: var(--byz-text-color-light);
+                }
+            }
+        }
+    }
+
+    div.content {
+        flex: 1;
+        flex-flow: column;
+        margin-top: 12px;
+    }
+}

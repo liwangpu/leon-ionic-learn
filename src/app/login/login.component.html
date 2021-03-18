@@ -1,0 +1,19 @@
+<ion-content [fullscreen]="true">
+    <form [formGroup]='form'>
+        <ion-item lines="none">
+            <h4>用户登陆</h4>
+        </ion-item>
+        <ion-item>
+            <ion-label>用户名</ion-label>
+            <ion-input type='text' formControlName='username'></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>密码</ion-label>
+            <ion-input type="password" formControlName='password'></ion-input>
+        </ion-item>
+    </form>
+
+    <div class="buttons">
+        <ion-button expand="block" (click)='login()'>登陆</ion-button>
+    </div>
+</ion-content>

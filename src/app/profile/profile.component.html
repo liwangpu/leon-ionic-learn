@@ -1,0 +1,19 @@
+<ion-content [fullscreen]="true">
+    <div class="header">
+        <ion-avatar>
+            <img src="/assets/test-user.png">
+        </ion-avatar>
+        <p class="profile">
+            <span>{{name}}</span>
+            <span>{{tenant}}</span>
+        </p>
+    </div>
+
+    <div class="content">
+        <ion-item button (click)='logout()' lines="full" detail>
+            <ion-label>
+                退出
+            </ion-label>
+        </ion-item>
+    </div>
+</ion-content>
