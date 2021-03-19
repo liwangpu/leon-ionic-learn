@@ -25,7 +25,6 @@
         "@capacitor/core": "^2.4.7",
         "@ionic-native/core": "^5.31.1",
         "@ionic/angular": "^5.5.2",
-        "cordova-android": "9.0.0",
         "lodash": "^4.17.20",
         "query-string": "^6.12.1",
         "rxjs": "~6.6.0",
@@ -82,8 +81,6 @@
             "cordova-plugin-androidx-adapter": {},
             "com.cxist.notification": {}
         },
-        "platforms": [
-            "android"
-        ]
+        "platforms": []
     }
 }

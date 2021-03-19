@@ -20,13 +20,13 @@
         </config-file>
 
         <source-file src="src/android/Messaging.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/Actions.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/MessageData.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/MirrorMESService.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/ServiceTracker.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/SignalR.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/StartReceiver.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
-        <source-file src="src/android/message/Utils.kt" target-dir="app/src/main/kotlin/com/cxist/notification" />
+        <source-file src="src/android/message/Actions.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
+        <source-file src="src/android/message/MessageData.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
+        <source-file src="src/android/message/MirrorMESService.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
+        <source-file src="src/android/message/ServiceTracker.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
+        <source-file src="src/android/message/SignalR.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
+        <source-file src="src/android/message/StartReceiver.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
+        <source-file src="src/android/message/Utils.kt" target-dir="app/src/main/kotlin/com/cxist/notification/message" />
 
         <framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
     </platform>

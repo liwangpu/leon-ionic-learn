@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('latest_login', JSON.stringify(this.form.value));
         localStorage.setItem('access_token', res.access_token);
         localStorage.setItem('refresh_token', res.refresh_token);
+        localStorage.setItem('expires_in', res.expires_in);
         const toast = await this.toastController.create({
             message: '登陆成功',
             duration: 2000

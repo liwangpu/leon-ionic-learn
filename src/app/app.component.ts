@@ -33,18 +33,23 @@ export class AppComponent implements OnInit, OnDestroy {
         ]).pipe(take(1)).subscribe(() => this.startupMessaging());
     }
 
-    private startupMessaging(): void {
+    private async startupMessaging(): Promise<void> {
         let config = {
             token: localStorage.getItem('access_token'),
+            expiresIn: localStorage.getItem('expires_in'),
             refreshToken: localStorage.getItem('refresh_token'),
             tenantId: localStorage.getItem('tenantId'),
             identityId: localStorage.getItem('identityId'),
             employeeId: localStorage.getItem('employeeId'),
         };
 
+        if (typeof cordova === 'undefined') {
+            this.showMessage('当前应用不在手机端运行,前台服务将不会启动');
+            return;
+        }
+
         const configureMessaingPro = () => {
             return new Promise((res, rej) => {
-                if (typeof cordova === 'undefined') { return rej('需要在app中运行才能启动服务') }
                 cordova.plugins.Messaging.configure(JSON.stringify(config), () => {
                     res(null);
                 }, err => {
