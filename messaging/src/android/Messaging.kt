@@ -19,8 +19,8 @@ class Messaging : CordovaPlugin() {
     var result = true
     try {
       when (action) {
-        "configure" -> actionOnConfigure(args)
-        "startup" -> actionOnStartup(Actions.START)
+        "startup" -> actionOnStartup(Actions.START, args)
+        "shutdown" -> actionOnShutdown(args)
       }
       callbackContext.success("${action} execute successful")
     } catch (e: Exception) {
@@ -31,13 +31,8 @@ class Messaging : CordovaPlugin() {
     return result
   }
 
-  private fun actionOnConfigure(args: CordovaArgs) {
-    log("configure service")
-
-  }
-
-  private fun actionOnStartup(action: Actions) {
-    log("startup service")
+  private fun actionOnStartup(action: Actions, args: CordovaArgs) {
+    log("startup service" + args[0])
     if (getServiceState(this.cordova.context) == ServiceState.STOPPED && action == Actions.STOP) return
 
     Intent(this.cordova.context, MirrorMESService::class.java).also {
@@ -50,6 +45,11 @@ class Messaging : CordovaPlugin() {
       // log("Android O 以下可以直接启动服务")
       //    startService(it)
     }
+  }
+
+  private fun actionOnShutdown(args: CordovaArgs) {
+    log("shutdown service" + args[0])
+
   }
 }
 

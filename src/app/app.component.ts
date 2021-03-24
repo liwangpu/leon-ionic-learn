@@ -3,7 +3,7 @@ import { Platform, ToastController } from '@ionic/angular';
 import { combineLatest, from } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { SubSink } from 'subsink';
-import { UserProfileService } from './services';
+import { MessagingService, UserProfileService } from './services';
 
 declare let cordova: any;
 
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public constructor(
         private platform: Platform,
         private userProfile: UserProfileService,
+        private messagingSrv: MessagingService,
         private toastController: ToastController
     ) {
     }
@@ -41,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
             tenantId: localStorage.getItem('tenantId'),
             identityId: localStorage.getItem('identityId'),
             employeeId: localStorage.getItem('employeeId'),
+            aliase: undefined,
         };
 
         if (typeof cordova === 'undefined') {
@@ -48,19 +50,9 @@ export class AppComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const configureMessaingPro = () => {
-            return new Promise((res, rej) => {
-                cordova.plugins.Messaging.configure(JSON.stringify(config), () => {
-                    res(null);
-                }, err => {
-                    rej(err);
-                });
-            });
-        };
-
         const startupMessaingPro = () => {
             return new Promise((res, rej) => {
-                cordova.plugins.Messaging.startup("param", () => {
+                cordova.plugins.Messaging.startup(JSON.stringify(config), () => {
                     res(null);
                 }, err => {
                     rej(err);
@@ -68,7 +60,13 @@ export class AppComponent implements OnInit, OnDestroy {
             });
         };
 
-        configureMessaingPro().then(startupMessaingPro).then(() => this.showMessage(`服务启动成功`), err => this.showMessage(`服务启动失败:${err}`));
+        try {
+            config.aliase = await this.messagingSrv.getAliase(config.employeeId).toPromise();
+            await startupMessaingPro();
+            this.showMessage(`服务启动成功`);
+        } catch (err) {
+            this.showMessage(`服务启动失败:${err}`);
+        }
     }
 
     private async showMessage(msg: string): Promise<void> {
