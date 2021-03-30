@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiServer: 'https://d-xcloud-gateway.cxist.cn/web'
+    apiServer: 'http://cxvpn.cxist.com:22504'
 };
 
 /*

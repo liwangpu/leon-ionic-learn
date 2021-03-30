@@ -1,5 +1,19 @@
 <ion-content [fullscreen]="true">
+
+    <form [formGroup]='form'>
+        <ion-item lines="full">
+            <ion-label>消息发送测试</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-label>消息内容</ion-label>
+            <ion-input type='text' formControlName='message'></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label>消息包含链接</ion-label>
+            <ion-toggle formControlName='link'></ion-toggle>
+        </ion-item>
+    </form>
     <div class="button">
-        <!-- <ion-button expand="block">开启服务</ion-button> -->
+        <ion-button expand="block" (click)='sendMessage()'>给自己发条消息</ion-button>
     </div>
 </ion-content>

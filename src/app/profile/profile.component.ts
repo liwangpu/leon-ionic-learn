@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppMessageTopicEnum } from '../enums';
 import * as fromService from '../services';
+import { MessageOpsatService } from '../services';
 
 @Component({
     selector: 'app-profile',
@@ -15,6 +17,7 @@ export class ProfileComponent implements OnInit {
 
     public constructor(
         private profileSrv: fromService.UserProfileService,
+        private opsat: MessageOpsatService,
         private router: Router
     ) {
 
@@ -31,6 +34,7 @@ export class ProfileComponent implements OnInit {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
         this.router.navigateByUrl('/login');
+        this.opsat.publish(AppMessageTopicEnum.logout);
     }
 
 }

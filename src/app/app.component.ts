@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Platform, ToastController } from '@ionic/angular';
-import { combineLatest, from } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import { SubSink } from 'subsink';
-import { MessagingService, UserProfileService } from './services';
+import { AppMessageTopicEnum } from './enums';
+import { MessageOpsatService, MessagingService, topicFilter } from './services';
+import { environment } from '@env/environment';
 
 declare let cordova: any;
 
@@ -17,25 +18,32 @@ export class AppComponent implements OnInit, OnDestroy {
     private subs = new SubSink();
     public constructor(
         private platform: Platform,
-        private userProfile: UserProfileService,
         private messagingSrv: MessagingService,
+        private opsat: MessageOpsatService,
         private toastController: ToastController
     ) {
+        this.subs.sink = this.opsat.message$.pipe(topicFilter(AppMessageTopicEnum.profileReady), delay(200)).subscribe(() => {
+            // let employeeId = localStorage.getItem('employeeId');
+            // console.log('employeeId:', employeeId);
+            this.startupMessaging();
+        });
+
+        this.subs.sink = this.opsat.message$.pipe(topicFilter(AppMessageTopicEnum.logout)).subscribe(() => {
+            this.shutdownMessaging();
+        });
     }
 
     public ngOnDestroy(): void {
         this.subs.unsubscribe();
     }
 
-    public async ngOnInit(): Promise<void> {
-        this.subs.sink = combineLatest([
-            this.userProfile.profile$.pipe(filter(p => p ? true : false)),
-            from(this.platform.ready())
-        ]).pipe(take(1)).subscribe(() => this.startupMessaging());
+    public ngOnInit(): void {
+        //
     }
 
     private async startupMessaging(): Promise<void> {
         let config = {
+            gateway: environment.apiServer,
             token: localStorage.getItem('access_token'),
             expiresIn: localStorage.getItem('expires_in'),
             refreshToken: localStorage.getItem('refresh_token'),
@@ -62,17 +70,41 @@ export class AppComponent implements OnInit, OnDestroy {
 
         try {
             config.aliase = await this.messagingSrv.getAliase(config.employeeId).toPromise();
+            console.log('config:', config.aliase);
             await startupMessaingPro();
             this.showMessage(`服务启动成功`);
         } catch (err) {
-            this.showMessage(`服务启动失败:${err}`);
+            this.showMessage(`服务启动失败:${err}`, 1000 * 60 * 2);
         }
     }
 
-    private async showMessage(msg: string): Promise<void> {
+    private async shutdownMessaging(): Promise<void> {
+        if (typeof cordova === 'undefined') {
+            return;
+        }
+
+        const shutdownMessaingPro = () => {
+            return new Promise((res, rej) => {
+                cordova.plugins.Messaging.shutdown(null, () => {
+                    res(null);
+                }, err => {
+                    rej(err);
+                });
+            });
+        };
+
+        try {
+            await shutdownMessaingPro();
+            this.showMessage(`服务停止成功`);
+        } catch (err) {
+            this.showMessage(`服务停止失败:${err}`, 1000 * 60 * 2);
+        }
+    }
+
+    private async showMessage(msg: string, duration = 2000): Promise<void> {
         const toast = await this.toastController.create({
             message: msg,
-            duration: 2000
+            duration
         });
         toast.present();
     }

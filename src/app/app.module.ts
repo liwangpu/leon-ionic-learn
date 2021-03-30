@@ -23,6 +23,7 @@ import { environment } from '@env/environment';
         fromService.UserProfileService,
         fromService.UserProfileProviderService,
         fromService.MessagingService,
+        fromService.MessageOpsatService,
         { provide: API_GATEWAY, useValue: environment.apiServer },
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: fromService.ErrorInterceptor, multi: true },
