@@ -4,7 +4,7 @@ const fs = require('fs');
 const androidManifestPath = 'platforms/android/app/src/main/AndroidManifest.xml';
 // const androidManifestPath = './AndroidManifest.xml';
 // 测试使用
-const androidTestManifestPath = './AndroidManifestTest.xml';
+// const androidTestManifestPath = './AndroidManifestTest.xml';
 
 const xml = fs.readFileSync(androidManifestPath, 'utf8');
 const androidManifest = convert.xml2js(xml, { compact: true, spaces: 4 });
@@ -44,11 +44,20 @@ if (!services.some(s => s._attributes['android:name'] === mirrorNotificationStar
     receivers.push(mirrorNotificationStartRceiver);
 }
 
-
-
-
+// console.log('androidManifest', androidManifest);
+application._attributes = {
+    ...application._attributes,
+    'android:name': '.MainApplication',
+    'tools:ignore': 'AllowBackup',
+    'tools:targetApi': 'n'
+};
 application.service = services;
 application.receiver = receivers;
+
+androidManifest.manifest._attributes = {
+    ...androidManifest.manifest._attributes,
+    'xmlns:tools': 'http://schemas.android.com/tools'
+};
 
 const result = convert.js2xml(androidManifest, { compact: true, ignoreComment: true, spaces: 4 });
 fs.writeFileSync(androidManifestPath, result);
