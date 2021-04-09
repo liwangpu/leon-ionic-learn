@@ -1,4 +1,4 @@
-package com.cxist.mirror.message
+package com.cxist.mirror.bean
 
 /**
  * author : ParfoisMeng
@@ -6,7 +6,8 @@ package com.cxist.mirror.message
  * desc   : 消息实体
  */
 data class MessageData(
-        val message: String,
+        val title: String = "Mirror MES",
+        val content: String?,
         val link: String? = null
 ) {
     companion object {

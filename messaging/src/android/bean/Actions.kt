@@ -1,4 +1,4 @@
-package com.cxist.mirror.message
+package com.cxist.mirror.bean
 
 enum class Actions {
     START,

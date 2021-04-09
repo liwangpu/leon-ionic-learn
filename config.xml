@@ -27,6 +27,12 @@
             <application android:networkSecurityConfig="@xml/network_security_config" />
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
+        <resource-file src="resources/android/assets/gradle/gradlew" target="app/gradlew" />
+        <resource-file src="resources/android/assets/gradle/gradlew.bat" target="app/gradlew.bat" />
+        <resource-file src="resources/android/assets/gradle/gradle-wrapper.jar" target="app/gradle/wrapper/gradle-wrapper.jar" />
+        <resource-file src="resources/android/assets/gradle/gradle-wrapper.properties" target="app/gradle/wrapper/gradle-wrapper.properties" />
+        <resource-file src="resources/android/assets/java/MainApplication.java" target="app/src/main/java/com/cxist/mirror/MainApplication.java" />
+        <resource-file src="resources/android/assets/java/MainActivity.java" target="app/src/main/java/com/cxist/mirror/MainActivity.java" />
         <hook src="hooks/androidAfterBuild.js" type="after_build" />
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
