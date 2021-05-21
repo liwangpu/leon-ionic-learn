@@ -8,7 +8,7 @@ import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.os.SystemClock
-import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.NotificationCompat
 import com.cxist.mirror.MainActivity
 import com.cxist.mirror.R
 import com.cxist.mirror.bean.Actions
@@ -68,7 +68,11 @@ class MirrorMESService : Service() {
     }
 
     private fun startService() {
-        if (isServiceStarted) return
+        if (isServiceStarted) {
+            val notification = createNotification()
+            startForeground(1, notification)
+            return
+        }
 
         log("Starting the foreground service task")
         isServiceStarted = true
@@ -84,7 +88,7 @@ class MirrorMESService : Service() {
             log("SignalR Test ReceiveMessage: message = $it")
 
             val notification = createNotification(it)
-            NotificationManagerCompat.from(this).notify(notification.hashCode(), notification)
+            startForeground(1, notification)
         }
     }
 
@@ -107,8 +111,8 @@ class MirrorMESService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val importance = if (data.content.isNullOrEmpty()) NotificationManager.IMPORTANCE_LOW else NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(notificationChannelId, notificationChannelId, importance).let {
-                it.description = notificationChannelId
+            val channel = NotificationChannel(notificationChannelId, "Mirror MES", importance).let {
+                it.description = "Mirror MES"
                 it.enableLights(true)
                 it.lightColor = Color.GREEN
                 it.enableVibration(true)
@@ -120,7 +124,7 @@ class MirrorMESService : Service() {
 
         val pendingIntent: PendingIntent = Intent(this, MainActivity::class.java).let { notificationIntent ->
             notificationIntent.putExtra(MessageData.LINK_KEY, data.link)
-            PendingIntent.getActivity(this, data.hashCode(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
         val builder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -134,8 +138,13 @@ class MirrorMESService : Service() {
                 .setContentText(data.content)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker(notificationChannelId)
-                .setAutoCancel(!data.content.isNullOrEmpty())
+                .setTicker("Mirror MES")
+                .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
+                .apply {
+                    if (data.content.isNullOrEmpty()) {
+                        setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE)
+                    }
+                }
                 .build()
     }
 
@@ -146,7 +155,7 @@ class MirrorMESService : Service() {
     companion object {
         @JvmStatic
         fun actionOnService(context: Context, action: Actions) {
-            if (getServiceState() == ServiceState.STOPPED && action == Actions.STOP) return
+            if ((getServiceState() == ServiceState.STOPPED || !isServiceRunning(context)) && action == Actions.STOP) return
             Intent(context, MirrorMESService::class.java).also {
                 it.action = action.name
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -157,6 +166,22 @@ class MirrorMESService : Service() {
                 log("Android O 以下可以直接启动服务")
                 context.startService(it)
             }
+        }
+
+        /**
+         * 判断服务是否正在运行
+         */
+        private fun isServiceRunning(context: Context): Boolean {
+            val am = context.getSystemService(ACTIVITY_SERVICE) as ActivityManager
+            val runningServices: List<ActivityManager.RunningServiceInfo> =
+                am.getRunningServices(100)
+            for (runningServiceInfo in runningServices) {
+                val className: String = runningServiceInfo.service.className
+                if (className == "com.cxist.mirror.service.MirrorMESService") {
+                    return true //判断服务是否运行
+                }
+            }
+            return false
         }
     }
 }
