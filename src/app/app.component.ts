@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Platform, ToastController } from '@ionic/angular';
-import { delay } from 'rxjs/operators';
+import { ToastController } from '@ionic/angular';
+import { skip } from 'rxjs/operators';
 import { SubSink } from 'subsink';
-import { AppMessageTopicEnum } from './enums';
-import { MessageOpsatService, MessagingService, topicFilter } from './services';
-import { environment } from '@env/environment';
+import { MessagingService, UserProfileService } from './services';
 
 declare let cordova: any;
 
@@ -15,22 +13,38 @@ declare let cordova: any;
 })
 export class AppComponent implements OnInit, OnDestroy {
 
+    private messagingStarted: boolean;
     private subs = new SubSink();
     public constructor(
-        private platform: Platform,
         private messagingSrv: MessagingService,
-        private opsat: MessageOpsatService,
-        private toastController: ToastController
+        private toastController: ToastController,
+        private profileSrv: UserProfileService
     ) {
-        this.subs.sink = this.opsat.message$.pipe(topicFilter(AppMessageTopicEnum.profileReady), delay(200)).subscribe(() => {
-            // let employeeId = localStorage.getItem('employeeId');
-            // console.log('employeeId:', employeeId);
-            this.startupMessaging();
-        });
+        this.subs.sink = this.profileSrv.profile$
+            .pipe(skip(1))
+            .subscribe(async (profile: any) => {
+                if (!profile) {
+                    if (this.messagingStarted) {
+                        await this.shutdownMessaging();
+                    }
+                    return;
+                }
 
-        this.subs.sink = this.opsat.message$.pipe(topicFilter(AppMessageTopicEnum.logout)).subscribe(() => {
-            this.shutdownMessaging();
-        });
+                const appConfigStr = localStorage.getItem('appConfig');
+                const appConfig = JSON.parse(appConfigStr);
+
+                const config: { [key: string]: any } = {
+                    gateway: appConfig.apiGateway,
+                    token: localStorage.getItem('access_token'),
+                    expiresIn: localStorage.getItem('expires_in'),
+                    refreshToken: localStorage.getItem('refresh_token'),
+                    tenantId: profile?.tenantId,
+                    identityId: profile?.identityId,
+                    employeeId: profile?.employeeId,
+                    aliase: undefined,
+                };
+                await this.startupMessaging(config);
+            });
     }
 
     public ngOnDestroy(): void {
@@ -38,21 +52,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        //
+        window['__cordovaAppUrlChange'] = (link: string) => {
+            alert(`url change: ${link}`);
+        };
     }
 
-    private async startupMessaging(): Promise<void> {
-        let config = {
-            gateway: environment.apiServer,
-            token: localStorage.getItem('access_token'),
-            expiresIn: localStorage.getItem('expires_in'),
-            refreshToken: localStorage.getItem('refresh_token'),
-            tenantId: localStorage.getItem('tenantId'),
-            identityId: localStorage.getItem('identityId'),
-            employeeId: localStorage.getItem('employeeId'),
-            aliase: undefined,
-        };
-
+    private async startupMessaging(config: { [key: string]: any }): Promise<void> {
         if (typeof cordova === 'undefined') {
             this.showMessage('当前应用不在手机端运行,前台服务将不会启动');
             return;

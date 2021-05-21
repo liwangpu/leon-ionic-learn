@@ -3,8 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,
-    apiServer: 'http://cxvpn.cxist.com:22504'
+    production: false
 };
 
 /*

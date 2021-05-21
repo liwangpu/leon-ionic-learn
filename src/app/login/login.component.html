@@ -14,6 +14,6 @@
     </form>
 
     <div class="buttons">
-        <ion-button expand="block" (click)='login()'>登陆</ion-button>
+        <ion-button expand="block" [disabled]='!form?.valid' (click)='login()'>登陆</ion-button>
     </div>
 </ion-content>

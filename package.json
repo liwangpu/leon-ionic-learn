@@ -13,7 +13,7 @@
         "cls": "ionic cordova platform rm android && npm run update-plugin:messaing",
         "rma": "ionic cordova platform rm android",
         "pta": "ionic cordova platform add android",
-        "build:android": "ionic cordova build android",
+        "bnd": "npm run build && ionic cordova build android",
         "android": "ionic cordova run android",
         "update-plugin:messaing": "cordova plugins add ./messaging"
     },
@@ -46,7 +46,7 @@
         "@types/jasminewd2": "~2.0.3",
         "@types/node": "^12.11.1",
         "codelyzer": "^6.0.0",
-        "cordova-android": "^9.0.0",
+        "cordova-android": "^9.1.0",
         "cordova-plugin-androidx": "^3.0.0",
         "cordova-plugin-androidx-adapter": "^1.1.3",
         "cordova-plugin-device": "2.0.2",

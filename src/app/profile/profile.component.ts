@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
         localStorage.removeItem('latest_login');
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+        localStorage.removeItem('appConfig');
         this.router.navigateByUrl('/login');
         this.opsat.publish(AppMessageTopicEnum.logout);
     }

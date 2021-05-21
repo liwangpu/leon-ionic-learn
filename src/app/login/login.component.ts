@@ -37,16 +37,26 @@ export class LoginComponent implements OnInit {
     }
 
     public async login(): Promise<void> {
-        const res: any = await this.identitySrv.login(this.form.value).toPromise();
-        localStorage.setItem('latest_login', JSON.stringify(this.form.value));
-        localStorage.setItem('access_token', res.access_token);
-        localStorage.setItem('refresh_token', res.refresh_token);
-        localStorage.setItem('expires_in', res.expires_in);
-        const toast = await this.toastController.create({
-            message: '登陆成功',
-            duration: 2000
-        });
-        toast.present();
-        await this.router.navigateByUrl(this.returnUrl ? decodeURIComponent(this.returnUrl) : '/');
+        try {
+            const res: any = await this.identitySrv.login(this.form.value).toPromise();
+            localStorage.setItem('latest_login', JSON.stringify(this.form.value));
+            localStorage.setItem('access_token', res.access_token);
+            localStorage.setItem('refresh_token', res.refresh_token);
+            localStorage.setItem('expires_in', res.expires_in);
+            const toast = await this.toastController.create({
+                message: '登陆成功',
+                duration: 2000
+            });
+            toast.present();
+            await this.router.navigateByUrl(this.returnUrl ? decodeURIComponent(this.returnUrl) : '/');
+        } catch (err: any) {
+            console.log('err:', err);
+            const toast = await this.toastController.create({
+                message: '账户名或者密码有误',
+                duration: 2000
+            });
+            toast.present();
+        }
+
     }
 }
