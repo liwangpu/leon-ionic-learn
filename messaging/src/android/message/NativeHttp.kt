@@ -19,11 +19,16 @@ object NativeHttp {
     private const val SERVICE_TOKEN = "/ids/connect/token"
 
     private val api by lazy {
+        val ssl = HttpsUtils.getSslSocketFactory()
         val retrofit = Retrofit.Builder()
-                .baseUrl(SERVICE_BASE_URL)
-                .client(OkHttpClient.Builder().build())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
+            .baseUrl(SERVICE_BASE_URL)
+            .client(
+                OkHttpClient.Builder()
+                    .sslSocketFactory(ssl.sSLSocketFactory, ssl.trustManager)
+                    .build()
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
         retrofit.create(Api::class.java)
     }
 

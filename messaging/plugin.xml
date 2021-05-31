@@ -30,6 +30,7 @@
         <source-file src="src/android/message/NativeHttp.kt" target-dir="app/src/main/kotlin/com/cxist/mirror/message" />
         <source-file src="src/android/message/SignalR.kt" target-dir="app/src/main/kotlin/com/cxist/mirror/message" />
         <source-file src="src/android/message/Utils.kt" target-dir="app/src/main/kotlin/com/cxist/mirror/message" />
+        <source-file src="src/android/message/HttpsUtils.java" target-dir="app/src/main/kotlin/com/cxist/mirror/message" />
         <!-- receiver -->
         <source-file src="src/android/receiver/StartReceiver.kt" target-dir="app/src/main/kotlin/com/cxist/mirror/receiver" />
         <!-- service -->
