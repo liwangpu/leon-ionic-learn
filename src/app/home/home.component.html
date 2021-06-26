@@ -2,7 +2,7 @@
 
     <form [formGroup]='form'>
         <ion-item lines="full">
-            <ion-label>消息发送测试</ion-label>
+            <ion-label class="app-title">消息发送测试</ion-label>
         </ion-item>
         <ion-item>
             <ion-label>消息内容</ion-label>
@@ -15,5 +15,7 @@
     </form>
     <div class="button">
         <ion-button expand="block" (click)='sendMessage()'>给自己发条消息</ion-button>
+        <ion-button expand="block" (click)='generateMessage()' color="medium">生成随机消息并发送</ion-button>
     </div>
+
 </ion-content>

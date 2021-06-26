@@ -1,0 +1,102 @@
+:host {
+
+    ion-header {
+        .back-area {
+            display: flex;
+            align-items: center;
+
+            ion-icon {
+                font-size: 22px;
+            }
+        }
+    }
+
+    ion-content {
+        --background: #F0F2F6;
+        $selectedColor: #0077FF;
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin: 8px 12px;
+            padding: 16px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            position: relative;
+
+            .item-content {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+            }
+
+
+            .tenant-name {
+                color: #1A1A1A;
+                margin: 0;
+                font-size: 16px;
+                font-family: Source Han Sans CN;
+                font-weight: 400;
+                max-width: calc(100% - 5em);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            span {
+                color: #666666;
+                font-size: 12px;
+                line-height: 16px;
+            }
+
+            span + span {
+                margin-top: 3px;
+            }
+
+            .selected-icon {
+                font-size: 20px;
+                display: none;
+                color: $selectedColor;
+            }
+
+            .cur-mark {
+                position: absolute;
+                right: 18px;
+                top: 15px;
+                font-size: 10px;
+                background-color: #F0F7FF;
+                color: #2266EE;
+                border-radius: 2px;
+                padding: 1px 5px;
+                line-height: 16px;
+                font-weight: 400;
+            }
+
+        }
+
+        .item.selected {
+            border-color: rgba($selectedColor, .6);
+            background-color: rgba($selectedColor, .1);
+
+            .tenant-name {
+                color: $selectedColor;
+            }
+
+            span {
+                color: #1A1A1A;
+            }
+
+            .selected-icon {
+                display: block;
+            }
+        }
+
+    }
+
+    ion-footer {
+        ion-button {
+            margin: 6px 20px;
+        }
+    }
+}

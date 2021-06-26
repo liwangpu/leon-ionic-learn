@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import * as fromService from '../services';
 import { Router } from '@angular/router';
 import { parseUrl } from 'query-string';
+import { TenantSelectComponent } from '../tenant-select/tenant-select.component';
 
 @Component({
     selector: 'app-login',
@@ -17,7 +18,9 @@ export class LoginComponent implements OnInit {
     private returnUrl: string;
     public constructor(
         private identitySrv: fromService.IdentityService,
+        private userProfileService: fromService.UserProfileService,
         private toastController: ToastController,
+        private modalCtrl: ModalController,
         private router: Router,
         fb: FormBuilder
     ) {
@@ -48,7 +51,8 @@ export class LoginComponent implements OnInit {
                 duration: 2000
             });
             toast.present();
-            await this.router.navigateByUrl(this.returnUrl ? decodeURIComponent(this.returnUrl) : '/');
+            await this.selectTenant();
+            await this.router.navigateByUrl('/');
         } catch (err: any) {
             console.log('err:', err);
             const toast = await this.toastController.create({
@@ -57,6 +61,46 @@ export class LoginComponent implements OnInit {
             });
             toast.present();
         }
+    }
+
+    public configApp(): void {
+        this.router.navigateByUrl('/configuration');
+    }
+
+    public presetUser(us: string): void {
+        let user: any;
+        switch (us) {
+            case 'Leon':
+                user = { username: 'leon', password: 'wqj199139' };
+                break;
+            case '何工':
+                user = { username: 'hechangjun', password: 'Cxist666' };
+                break;
+            case '关工':
+                user = { username: 'guanshuwei', password: 'Cxist666' };
+                break;
+            default:
+                break;
+        }
+        if (user) {
+            this.form.patchValue(user);
+            this.login();
+        }
 
     }
+
+    private async selectTenant(): Promise<void> {
+        const modal: HTMLIonModalElement = await this.modalCtrl.create({ component: TenantSelectComponent });
+        modal.present();
+        let { data: tenantId } = await modal.onWillDismiss();
+        if (!tenantId) {
+            localStorage.removeItem('latest_login');
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('expires_in');
+            return;
+        }
+        await this.userProfileService.updateProfile(tenantId);
+    }
+
 }

@@ -1,0 +1,15 @@
+<ion-content [fullscreen]="true">
+    <h3 class="title">系统环境</h3>
+    <textarea class="config" rows="8" [(ngModel)]='env'></textarea>
+
+    <div class="buttons">
+        <ion-button (click)='useConfig()'>使用</ion-button>
+    </div>
+
+    <h3 class="title">环境</h3>
+    <div class="preset-env">
+        <ion-button (click)='presetEnv("dev")' size="small" color="medium">开发环境</ion-button>
+        <ion-button (click)='presetEnv("test")' size="small" color="medium">测试环境</ion-button>
+        <ion-button (click)='presetEnv("shandong")' size="small" color="medium">山东外网</ion-button>
+    </div>
+</ion-content>

@@ -1,4 +1,3 @@
 {
-    "apiGateway": "https://t-gateway-xcloud.cxist.cn/web",
-    "fileHost": "http://123.232.107.115:11002"
+    "apiGateway": "https://d-gateway-xcloud.cxist.cn/web"
 }

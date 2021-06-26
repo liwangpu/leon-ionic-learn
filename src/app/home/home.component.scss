@@ -1,5 +1,13 @@
 :host {
+    .app-title {
+        color: #3880FF;
+    }
+
     div.button {
         padding: 20px 16px;
+
+        &>* {
+            margin-bottom: 12px;
+        }
     }
 }

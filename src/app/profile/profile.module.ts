@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-
+import { ProfileComponent } from './profile.component';
 
 @NgModule({
-    declarations: [],
+    declarations: [ProfileComponent],
     imports: [
         CommonModule,
         IonicModule,

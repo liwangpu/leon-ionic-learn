@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { MessagingService } from '../services';
+import * as faker from 'faker';
 
 @Component({
     selector: 'app-home',
@@ -32,7 +33,12 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    private async showMessage(msg: string, duration = 2000): Promise<void> {
+    public generateMessage(): void {
+        this.form.patchValue({ message: `${faker.datatype.uuid()}` });
+        this.sendMessage();
+    }
+
+    private async showMessage(msg: string, duration = 500): Promise<void> {
         const toast = await this.toastController.create({
             message: msg,
             duration

@@ -1,0 +1,29 @@
+:host {
+
+    .title {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .config {
+        width: 100%;
+        border: 1px solid #D0D0D0;
+        box-shadow: none;
+        outline: none;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 12px;
+    }
+
+    .preset-env {
+        display: flex;
+        padding: 0 12px;
+
+        &>* {
+            margin-right: 10px;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+
+  mirror-messaging:
+    container_name: mirror-messaging-c
+    image: registry.cn-qingdao.aliyuncs.com/leon-pu/mirror-messaging-test:latest
+    build: ./
+    ports:
+      - "9901:80"

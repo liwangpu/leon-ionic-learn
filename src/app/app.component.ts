@@ -32,12 +32,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 const appConfigStr = localStorage.getItem('appConfig');
                 const appConfig = JSON.parse(appConfigStr);
-
                 const config: { [key: string]: any } = {
                     gateway: appConfig.apiGateway,
                     token: localStorage.getItem('access_token'),
                     expiresIn: localStorage.getItem('expires_in'),
-                    refreshToken: localStorage.getItem('refresh_token'),
+                    refreshToken: localStorage.getItem('refres  h_token'),
                     tenantId: profile?.tenantId,
                     identityId: profile?.identityId,
                     employeeId: profile?.employeeId,
@@ -106,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    private async showMessage(msg: string, duration = 2000): Promise<void> {
+    private async showMessage(msg: string, duration = 1000): Promise<void> {
         const toast = await this.toastController.create({
             message: msg,
             duration

@@ -16,4 +16,13 @@
     <div class="buttons">
         <ion-button expand="block" [disabled]='!form?.valid' (click)='login()'>登陆</ion-button>
     </div>
+
+    <p class="title">默认用户</p>
+    <div class="preset-user">
+        <ion-button size="small" color="medium" (click)='presetUser("Leon")'>Leon</ion-button>
+        <ion-button size="small" color="medium" (click)='presetUser("何工")'>何工</ion-button>
+        <ion-button size="small" color="medium" (click)='presetUser("关工")'>关工</ion-button>
+    </div>
+
+    <ion-button (click)='configApp()' class="config" size="small" color="medium">配置环境变量</ion-button>
 </ion-content>

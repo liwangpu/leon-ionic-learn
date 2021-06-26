@@ -1,0 +1,25 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <div class="back-area" slot="start" (click)="cancel()">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+            <span>组织</span>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+
+    <div class="item" *ngFor="let tenant of tenants" (click)="selectTenant(tenant.id)"
+        [ngClass]="{ 'selected': selectedTenantId === tenant.id }">
+        <div class="item-content">
+            <p class="tenant-name">{{tenant.name}}</p>
+        </div>
+        <ion-icon class="selected-icon" name="checkmark-outline" *ngIf="profile?.tenantId !== tenant.id"></ion-icon>
+    </div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-toolbar>
+        <ion-button expand="block" shape="round" (click)="saveTenant()" [disabled]="!selectedTenantId">确定</ion-button>
+    </ion-toolbar>
+</ion-footer>
